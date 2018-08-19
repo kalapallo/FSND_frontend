@@ -1,13 +1,9 @@
-<!-- YELP Client ID: ZMWRBPSdbC6Uo1YNE732wg -->
-<!-- API Key: pM_FsDlbAeFeBNnCcf-_LxNtwbXSzgrbnXIe6pOyatN-H1ZtMKz06VBNTaCPtmcy1UE-zxGFSxX9R13uAs8u-927Uy5h0uWlHgiFHzc3_z6yfGW_N9rn_Xux0Qt4W3Yx -->
-
 <html>
     <head>
         <title>Neighborhood Map</title>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/style.css">
-        <!--script src="jquery-3.3.1.min.js"></script-->
     </head>
     <body>
         <!-- SIDE NAV IMPLEMENTATION BASED ON w3schools.com TUTORIAL:
@@ -16,11 +12,8 @@
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <p>Locations</p>
-            <!--form id="search-form" action="#"-->
             <input type="text" id="loc-search" placeholder="Search locations"
                 data-bind="event: { input: filterLocations }">
-            <!--input type="button" id="loc-button" value="Search"-->
-            <!--/form-->
 
             <ul data-bind="foreach: locationList">
                 <div data-bind="if: display">
@@ -48,12 +41,6 @@
 
         <div id="main">
             <div id="map"></div>
-            <!--div id="infowindow-content"-->
-                <!--span id="place-name" class="title"></span><br-->
-                <!--span id="place-address"></span-->
-                <!--span id="loc-name"></span><br-->
-                <!--span id="loc-info"></span-->
-            <!--/div-->
         </div>
 
         <!-- Include Google maps API and releveant libraries -->
@@ -64,6 +51,5 @@
         <script src="js/lib/knockout-3.4.2.js"></script>
         <script src="js/app.js"></script>
         <script src="js/map.js"></script>
-        <!--script src="js/wiki.js"></script-->
     </body>
 </html>

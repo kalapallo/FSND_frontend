@@ -1,31 +1,3 @@
-var oldlocations = [
-    {
-        name: "Geylang Serai Market",
-        id: "ChIJ9YySoRAY2jERp62zayDnKuM",
-        location: {lat: 1.316728, lng: 103.898277}
-    },
-    {
-        name: "Long Phung",
-        id: "ChIJqTY_gxEY2jERYmK8LIyivgo",
-        location: {lat: 1.312713, lng: 103.900143}
-    },
-    {
-        name: "Little Vietnam",
-        id: "ChIJPbH-KxYY2jERWtR5TBtZ-DU",
-        location: {lat: 1.314085, lng: 103.891805}
-    },
-    {
-        name: "Fei Fei Wanton Noodle",
-        id: "ChIJbf1bwhEY2jER4T3aaybaPcM",
-        location: {lat: 1.313522, lng: 103.90227}
-    },
-    {
-        name: "VeganBurg Singapore",
-        id: "ChIJTY2khwQY2jERlMZdzuX1VfA",
-        location: {lat: 1.320948, lng: 103.905471}
-    }
-];
-
 var locations = [
     {
         name: "Plaza Singapura",
@@ -56,14 +28,12 @@ function searchWikiPage(location, container) {
     $.ajax({
         url: wikiUrl,
         dataType: "jsonp",
-        timeout: 10000,
+        timeout: 10000, // 10 seconds
         success: function(data) {
-            //console.log(wikiUrl);
-            //console.log(data);
-
             var $temp = $(container);
 
             if (data.length < 3) {
+                // This might not be necessary at all
                 $temp.html('Data from Wikipedia not available');
             }
             else {
@@ -76,9 +46,9 @@ function searchWikiPage(location, container) {
                     + '<a href="' + finalUrl + '" target="_blank">Link</a>')
             }
         },
-        error: function(data) {
+        error: function(jqXHR, textStatus, errorThrown) {
             var $temp = $(container);
-            $temp.html('Data from Wikipedia not available');
+            $temp.html('Wikipedia returned an error: ' + textStatus);
         }
     });
 }
