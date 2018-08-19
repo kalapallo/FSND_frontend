@@ -21,6 +21,13 @@ var locations = [
     }
 ];
 
+/**
+ * @description Performs an asynchronous ajax request to Wikipedia, requesting
+ * articles regarding the given location. Writes the article name and description
+ * to the container referenced by the container parameter.
+ * @param {string} location - location name
+ * @param {string} container - formatted container name to be used by jQuery
+ */
 function searchWikiPage(location, container) {
     var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&"
             + "search=" + location + "&format=json&callback=wikiCallBack";
@@ -70,6 +77,10 @@ var ViewModel = function() {
         self.locationList.push(new Location(location));
     })
 
+    /**
+     * @description - Selects a single marker based on the given location data
+     * @param {string} location - location to search for in markers
+     */
     this.selectLocation = function(location) {
         // Find marker based on location and trigger click event
         for (var marker of markers) {
@@ -79,6 +90,11 @@ var ViewModel = function() {
         }
     };
 
+    /**
+     * @description - Filters the location list based on the input string
+     * @param {Object} data - Not used
+     * @param {Object} event - Event information from the parent control
+     */
     this.filterLocations = function(data, event) {
         // Convert the search string to lowercase
         var value = event.target.value.toLowerCase();

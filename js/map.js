@@ -1,5 +1,9 @@
 var map;
 
+/**
+ * @description Initializes Google Maps by setting an initial location,
+ * and creating markers with event listeners from locations.
+ */
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 1.355379, lng: 103.867744},
@@ -32,6 +36,11 @@ function initMap() {
     }
 }
 
+/**
+ * @description Creates an info window with all relevant information as HTML
+ * @param {Object} marker - parent marker object for the info window
+ * @param {Object} infoWindow - Google Maps InfoWindow object which will be updated
+ */
 function createInfoWindow(marker, infoWindow) {
     if (infoWindow.marker != marker) {
         infoWindow.marker = marker;
