@@ -6,12 +6,6 @@ function initMap() {
         zoom: 12
     });
 
-    //var input = document.getElementById('loc-search');
-    //var options = {
-    //    bounds: defaultBounds,
-    //    types: ['establishment']
-    //};
-
     var infoWindow = new google.maps.InfoWindow();
     var infoWindowContent = document.getElementById('infowindow-content');
     infoWindow.setContent(infoWindowContent);
@@ -50,7 +44,6 @@ function createInfoWindow(marker, infoWindow) {
         infoWindow.open(map, marker);
 
         // Load wiki link asynchronously in 'wiki-test' container
-        // TODO: cache the data so no need to load the info every time
         searchWikiPage(marker.title, "#wiki-test");
 
         // Set the icon back to red and set infoWindow's marker to null when closing
