@@ -7,6 +7,7 @@
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/style.css">
+        <!--script src="jquery-3.3.1.min.js"></script-->
     </head>
     <body>
         <!-- SIDE NAV IMPLEMENTATION BASED ON w3schools.com TUTORIAL:
@@ -47,19 +48,22 @@
 
         <div id="main">
             <div id="map"></div>
-            <div id="infowindow-content">
-                <span id="place-name" class="title"></span><br>
-                Place ID <span id="place-id"></span><br>
-                <span id="place-address"></span>
-            </div>
+            <!--div id="infowindow-content"-->
+                <!--span id="place-name" class="title"></span><br-->
+                <!--span id="place-address"></span-->
+                <!--span id="loc-name"></span><br-->
+                <!--span id="loc-info"></span-->
+            <!--/div-->
         </div>
 
         <!-- Include Google maps API and releveant libraries -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1UYmWUa2__j61dGqPR0BTh5nQBbHY9ho&libraries=places&callback=initMap"
             async defer></script>
 
+        <script src="js/lib/jquery.min.js"></script>
         <script src="js/lib/knockout-3.4.2.js"></script>
         <script src="js/app.js"></script>
         <script src="js/map.js"></script>
+        <!--script src="js/wiki.js"></script-->
     </body>
 </html>

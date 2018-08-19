@@ -1,4 +1,4 @@
-var locations = [
+var oldlocations = [
     {
         name: "Geylang Serai Market",
         id: "ChIJ9YySoRAY2jERp62zayDnKuM",
@@ -25,6 +25,63 @@ var locations = [
         location: {lat: 1.320948, lng: 103.905471}
     }
 ];
+
+var locations = [
+    {
+        name: "Plaza Singapura",
+        location: {lat: 1.3005659, lng: 103.8448524}
+    },
+    {
+        name: "Marina Bay Sands",
+        location: {lat: 1.2833754, lng: 103.8607264}
+    },
+    {
+        name: "National Museum of Singapore",
+        location: {lat: 1.2966147, lng: 103.8485095}
+    },
+    {
+        name: "Lau Pa Sat",
+        location: {lat: 1.280684, lng: 103.8504436}
+    },
+    {
+        name: "Raffles Hotel",
+        location: {lat: 1.2948829, lng: 103.8544791}
+    }
+];
+
+function searchWikiPage(location, container) {
+    var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&"
+            + "search=" + location + "&format=json&callback=wikiCallBack";
+
+    $.ajax({
+        url: wikiUrl,
+        dataType: "jsonp",
+        timeout: 10000,
+        success: function(data) {
+            //console.log(wikiUrl);
+            //console.log(data);
+
+            var $temp = $(container);
+
+            if (data.length < 3) {
+                $temp.html('Data from Wikipedia not available');
+            }
+            else {
+                var articleStr = data[1][0];
+                var description = data[2][0];
+
+                var finalUrl = "http://en.wikipedia.org/wiki/" + articleStr;
+
+                $temp.html('<b>From Wikipedia</b>: ' + description + '<br><br>'
+                    + '<a href="' + finalUrl + '" target="_blank">Link</a>')
+            }
+        },
+        error: function(data) {
+            var $temp = $(container);
+            $temp.html('Data from Wikipedia not available');
+        }
+    });
+}
 
 var markers = [];
 
@@ -53,28 +110,24 @@ var ViewModel = function() {
     };
 
     this.filterLocations = function(data, event) {
-        var value = event.target.value;
+        // Convert the search string to lowercase
+        var value = event.target.value.toLowerCase();
 
-        //console.log(value);
-        //console.log(self.locationList());
-
+        // Iterate through all locations and compare their names as lowercase
+        // to the lowercase value.
         self.locationList().forEach(function(location) {
-            if (location.name().includes(value)) {
-                //console.log("found! " + location.name());
-                location.display(true);
-            }
-            else {
-                location.display(false);
+            var found = location.name().toLowerCase().indexOf(value) != -1;
+
+            location.display(found);
+
+            // Show or hide the corresponding marker
+            for (var marker of markers) {
+                if (marker.title == location.name()) {
+                    marker.setMap(found ? map : null);
+                    break;
+                }
             }
         })
-
-        // Search for value in location list
-        //for (var location of locations) {
-        //    if (location.name.includes(value)) {
-                //candidates.push(location);
-                //self.locationList().push
-        //    }
-        //}
     };
 };
 

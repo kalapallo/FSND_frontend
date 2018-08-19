@@ -83,8 +83,17 @@ function populateInfoWindow(marker, infoWindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infoWindow.marker != marker) {
         infoWindow.marker = marker;
-        infoWindow.setContent('<div>' + marker.title + '</div>');
+        var nameHTML = '<div><u><b>' + marker.title + '</b></u></div>';
+        var wikiHTML = '<div id="wiki-test">Loading info from Wikipedia...</div>';
+        infoWindow.setContent(nameHTML + wikiHTML);
+        infoWindow.setOptions({maxWidth: 200});
+
         infoWindow.open(map, marker);
+
+        // Load wiki link asynchronously in 'wiki-test' container
+        // TODO: cache the data so no need to load the info every time
+        searchWikiPage(marker.title, "#wiki-test");
+
         // Set the icon back to red and set infoWindow's marker to null when closing
         infoWindow.addListener('closeclick',function(){
             marker.setIcon("redmarker.png");
