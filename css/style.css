@@ -2,11 +2,13 @@ body {
     font-family: "Lato", sans-serif;
 }
 
-#map {
+.map-canvas {
     height: 100%;
+    font-size: 20px;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -65,11 +67,12 @@ ul li:hover {
     margin-left: 50px;
 }
 
-#nav-panel {
+.nav-class {
+    /*min-height: 50px;*/
     font-size: 36px;
 }
 
-#loc-search {
+.loc-input {
     width: 100%;
     padding: 12px 8px;
     box-sizing: border-box;
@@ -81,5 +84,5 @@ ul li:hover {
 }
 
 @media screen and (max-width: 350px) {
-    #loc-search {width: 100px;}
+    .loc-input {width: 100px;}
 }

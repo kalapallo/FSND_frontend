@@ -1,3 +1,5 @@
+'use strict';
+
 var map;
 
 /**
@@ -11,8 +13,6 @@ function initMap() {
     });
 
     var infoWindow = new google.maps.InfoWindow();
-    var infoWindowContent = document.getElementById('infowindow-content');
-    infoWindow.setContent(infoWindowContent);
 
     for (var val of locations) {
         var marker = new google.maps.Marker({
@@ -52,8 +52,8 @@ function createInfoWindow(marker, infoWindow) {
 
         infoWindow.open(map, marker);
 
-        // Load wiki link asynchronously in 'wiki-test' container
-        searchWikiPage(marker.title, "#wiki-test");
+        // Load wiki link asynchronously
+        searchWikiPage(marker.title, infoWindow);
 
         // Set the icon back to red and set infoWindow's marker to null when closing
         infoWindow.addListener('closeclick',function(){

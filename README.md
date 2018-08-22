@@ -20,5 +20,3 @@ The locations can be filtered in the side navigation panel by typing anything in
 * Currently the location data loads slowly, and it is done every time a marker is clicked. It would be better to cache the data from Wikipedia, so subsequent searches can simply retrieve the data from a local variable. This will make the app faster, and reduce the requests to Wikipedia.
 
 * Clicking on markers or items on the list could center and/or zoom the map to the marker location. This might make the experience better for the user, but it might also make it worse.
-
-* Error handling for Google Maps relies on what Google Maps will render on screen. It may be better to implement a dedicated error checking mechanism, but it will be complicated since the error information has to be read from JS console. This means the implementation has to be done for all browsers separately.

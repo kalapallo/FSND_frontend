@@ -1,25 +1,4 @@
-var locations = [
-    {
-        name: "Plaza Singapura",
-        location: {lat: 1.3005659, lng: 103.8448524}
-    },
-    {
-        name: "Marina Bay Sands",
-        location: {lat: 1.2833754, lng: 103.8607264}
-    },
-    {
-        name: "National Museum of Singapore",
-        location: {lat: 1.2966147, lng: 103.8485095}
-    },
-    {
-        name: "Lau Pa Sat",
-        location: {lat: 1.280684, lng: 103.8504436}
-    },
-    {
-        name: "Raffles Hotel",
-        location: {lat: 1.2948829, lng: 103.8544791}
-    }
-];
+'use strict';
 
 /**
  * @description Performs an asynchronous ajax request to Wikipedia, requesting
@@ -28,7 +7,7 @@ var locations = [
  * @param {string} location - location name
  * @param {string} container - formatted container name to be used by jQuery
  */
-function searchWikiPage(location, container) {
+function searchWikiPage(location, infoWindow) {
     var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&"
             + "search=" + location + "&format=json&callback=wikiCallBack";
 
@@ -37,11 +16,9 @@ function searchWikiPage(location, container) {
         dataType: "jsonp",
         timeout: 10000, // 10 seconds
         success: function(data) {
-            var $temp = $(container);
-
             if (data.length < 3) {
                 // This might not be necessary at all
-                $temp.html('Data from Wikipedia not available');
+                infoWindow.setContent("Data from Wikipedia not available");
             }
             else {
                 var articleStr = data[1][0];
@@ -49,22 +26,26 @@ function searchWikiPage(location, container) {
 
                 var finalUrl = "http://en.wikipedia.org/wiki/" + articleStr;
 
-                $temp.html('<b>From Wikipedia</b>: ' + description + '<br><br>'
-                    + '<a href="' + finalUrl + '" target="_blank">Link</a>')
+                infoWindow.setContent("<b>From Wikipedia</b>: " + description + "<br><br>"
+                    + "<a href='" + finalUrl + "' target='_blank'>Link</a>");
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            var $temp = $(container);
-            $temp.html('Wikipedia returned an error: ' + textStatus);
+            infoWindow.setContent("Wikipedia returned an error: " + textStatus);
         }
     });
 }
 
+var errorText = ko.observable("");
+
+function mapErrorHandler() {
+    errorText("Error: Google Maps could not be loaded");
+};
+
 var markers = [];
 
 var Location = function(data) {
-    this.name = ko.observable(data.name);
-    this.id = ko.observable(data.id);
+    this.name = data.name;
     this.display = ko.observable(true);
 };
 
@@ -84,31 +65,31 @@ var ViewModel = function() {
     this.selectLocation = function(location) {
         // Find marker based on location and trigger click event
         for (var marker of markers) {
-            if (marker.title == location.name()) {
+            if (marker.title == location.name) {
                 google.maps.event.trigger(marker, 'click');
             }
         }
     };
 
+    self.inputText = ko.observable("");
+
     /**
      * @description - Filters the location list based on the input string
-     * @param {Object} data - Not used
-     * @param {Object} event - Event information from the parent control
      */
-    this.filterLocations = function(data, event) {
+    this.filterLocations = function() {
         // Convert the search string to lowercase
-        var value = event.target.value.toLowerCase();
+        var value = self.inputText();
 
         // Iterate through all locations and compare their names as lowercase
         // to the lowercase value.
         self.locationList().forEach(function(location) {
-            var found = location.name().toLowerCase().indexOf(value) != -1;
+            var found = location.name.toLowerCase().indexOf(value) != -1;
 
             location.display(found);
 
             // Show or hide the corresponding marker
             for (var marker of markers) {
-                if (marker.title == location.name()) {
+                if (marker.title == location.name) {
                     marker.setMap(found ? map : null);
                     break;
                 }
@@ -117,4 +98,10 @@ var ViewModel = function() {
     };
 };
 
-ko.applyBindings(new ViewModel());
+var VM = new ViewModel();
+ko.applyBindings(VM);
+
+// Bind the inputText changes to a function
+VM.inputText.subscribe(function() {
+    VM.filterLocations();
+});

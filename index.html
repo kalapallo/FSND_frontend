@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Neighborhood Map</title>
@@ -12,44 +13,42 @@
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <p>Locations</p>
-            <input type="text" id="loc-search" placeholder="Search locations"
-                data-bind="event: { input: filterLocations }">
+            <input type="text" id="loc-search" class="loc-input"
+                placeholder="Search locations"
+                data-bind="textInput: inputText">
 
             <ul data-bind="foreach: locationList">
-                <div data-bind="if: display">
-                    <li data-bind="text: name, click: $parent.selectLocation"></li>
-                </div>
+                <!-- ko if: display -->
+                <li data-bind="text: name, click: $parent.selectLocation"></li>
+                <!-- /ko -->
             </ul>
         </div>
-        <span id="nav-panel" onclick="openNav()">&#9776; Locations</span>
+        <div id="nav-panel" class="nav-class" onclick="openNav()">&#9776; Locations</div>
 
         <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "350px";
-            document.getElementById("main").style.marginLeft = "350px";
             document.getElementById("mySidenav").style.paddingRight = "8px";
             document.getElementById("mySidenav").style.paddingLeft = "8px";
         }
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
             document.getElementById("mySidenav").style.paddingRight = "0px";
             document.getElementById("mySidenav").style.paddingLeft = "0px";
         }
         </script>
         <!-- END SIDE NAV IMPLEMENTATION -->
 
-        <div id="main">
-            <div id="map"></div>
-        </div>
-
-        <!-- Include Google maps API and releveant libraries -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1UYmWUa2__j61dGqPR0BTh5nQBbHY9ho&libraries=places&callback=initMap"
-            async defer></script>
+        <div id="map" class="map-canvas" data-bind="text: errorText"></div>
 
         <script src="js/lib/jquery.min.js"></script>
         <script src="js/lib/knockout-3.4.2.js"></script>
+        <script src="js/data.js"></script>
         <script src="js/app.js"></script>
         <script src="js/map.js"></script>
+
+        <!-- Include Google maps API last to prevent race condition -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1UYmWUa2__j61dGqPR0BTh5nQBbHY9ho&callback=initMap"
+            onerror="mapErrorHandler()" async defer></script>
     </body>
 </html>
